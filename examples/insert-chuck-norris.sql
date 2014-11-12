@@ -1,0 +1,1 @@
+insert into student (id, name, password, active) values (1, 'Chuck Norris', '1', 'yes')

@@ -1,0 +1,1 @@
+insert into student (id, name, password, active) values (2, 'Harry Potter', '41J3pV9frVv182D', 'no')

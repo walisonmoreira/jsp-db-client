@@ -1,0 +1,1 @@
+select id, name, active from student order by name
