@@ -64,7 +64,7 @@ body {
                 <div class="col-sm-12">
                   <div class="form-group">
                     <%String sql = val(request, "sql");%>
-                    <textarea name="sql" class="form-control" rows="4" placeholder="SQL"><%=sql%></textarea>
+                    <textarea name="sql" class="form-control" rows="8" placeholder="SQL"><%=sql%></textarea>
                   </div>
                   <button type="submit" class="btn btn-primary pull-right">Executar</button>
                 </div>
