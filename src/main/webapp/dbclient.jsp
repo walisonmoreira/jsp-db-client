@@ -5,8 +5,11 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.ResultSetMetaData"%>
 <%!String val(javax.servlet.http.HttpServletRequest request, String param) {
+  return val(request, param, "");
+}%>
+<%!String val(javax.servlet.http.HttpServletRequest request, String param, String defaultValue) {
   String value = request.getParameter(param);
-  return value == null ? "" : value;
+  return value == null || value.trim().equals("") ? defaultValue : value;
 }%>
 <%
 request.setCharacterEncoding("utf-8");
@@ -47,16 +50,22 @@ body {
                     <input type="text" name="url" class="form-control input-sm" placeholder="URL JDBC" title="Exemplo: jdbc:derby:db;create=true" value="<%=url%>">
                   </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                   <div class="form-group">
                     <%String user = val(request, "user");%>
                     <input type="text" name="user" class="form-control input-sm" placeholder="Usuário" value="<%=user%>">
                   </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                   <div class="form-group">
                     <%String password = val(request, "password");%>
                     <input type="password" name="password" class="form-control input-sm" placeholder="Senha" value="<%=password%>">
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <%String max = val(request, "max", "100");%>
+                    <input type="text" name="max" class="form-control input-sm" placeholder="# Máx. registros" title="Quantidade máxima de registros" value="<%=max%>">
                   </div>
                 </div>
               </div>
@@ -74,61 +83,61 @@ body {
 <%
 String op = val(request, "op");
 if (op.equals("run")) {
+  Connection conn = null;
   try {
-    Connection conn = DriverManager.getConnection(url, user, password);
+    conn = DriverManager.getConnection(url, user, password);
     Statement stmt = conn.createStatement();
     boolean isResultSet = stmt.execute(sql);
     if (isResultSet) {
       ResultSet rs = stmt.getResultSet();
       if (rs.next()) {
 %>
-        <div class="panel panel-success" id="resultPanel">
-          <div class="panel-heading">Sucesso</div>
-          <table class="table table-condensed">
-          <thead>
-            <tr>
-          <th>#</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Username</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
-      </tbody>
-    </table><%
+          <div class="panel panel-success" id="resultPanel">
+            <div class="panel-heading">Sucesso</div>
+            <table class="table table-condensed">
+              <thead>
+                <tr>
+<%
         ResultSetMetaData rsmd = rs.getMetaData();
         int columnCount = rsmd.getColumnCount();
         for (int i = 1; i <= columnCount; i++) {
-          rsmd.getColumnName(i);
+          String columnName = rsmd.getColumnName(i);
 %>
+                  <th><%=columnName%></th>
 <%
         }
 %>
-        </div>
+                </tr>
+              </thead>
+              <tbody>
+<%
+        int maxRegs = Integer.parseInt(max);
+        int numRegs = 1;
+        do {
+%>
+                <tr>
+<%
+          for (int i = 1; i <= columnCount; i++) {
+            String value = rs.getString(i);            
+%>
+                  <td><%=value%></td>
+<%
+          }
+%>
+                </tr>
+<%
+        } while(++numRegs <= maxRegs && rs.next());
+%>
+              </tbody>
+            </table>
+          </div>
 <%
       } else {
 %>
           <div class="panel panel-success" id="resultPanel">
             <div class="panel-heading">Sucesso</div>
             <div class="panel-body">
-              <p>Nenhum registro encontrado.</p>
+              <p>Nenhum registro foi encontrado.</p>
             </div>
           </div>
 <%
@@ -153,8 +162,26 @@ if (op.equals("run")) {
             </div>
           </div>
 <%
+  } finally {
+    if (conn != null) {
+      try {
+        conn.close();
+      } catch (Throwable e) {
+        //Não há o que fazer.        
+      }
+    }
   }
 %>
+          <script>
+            function scroll() {
+              var resultPanel = $("#resultPanel");
+              if (resultPanel.length) {
+                $("html, body").animate({
+                  scrollTop: resultPanel.offset().top
+                }, 600);
+              }
+            }
+          </script>
 <%
 } else {
 %>
@@ -171,14 +198,6 @@ if (op.equals("run")) {
   </div>
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
   <script>
-    function scroll() {
-      var resultPanel = $("#resultPanel");
-      if (resultPanel.length) {
-        $("html, body").animate({
-          scrollTop: resultPanel.offset().top
-        }, 600);
-      }
-    }
     $(document).ready(function () {
       setTimeout(scroll, 300);
     });
