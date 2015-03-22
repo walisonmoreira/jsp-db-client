@@ -1,0 +1,1 @@
+insert into student (id, name, password, active) values (1, 'Lord Voldemort', '1', 'yes')
