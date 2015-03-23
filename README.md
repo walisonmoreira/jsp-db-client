@@ -20,9 +20,10 @@ Esse projeto tem disponível o banco de dados [Derby](https://db.apache.org/derb
 
 ## Distributing
 
-Para usar o JSP DB Client em sua própria aplicação, basta colocar o arquivo `dbclient.jsp`.
+Para usar o JSP DB Client em sua própria aplicação, basta colocar o arquivo `dbclient.jsp` na sua aplicação web.
 
 Esse arquivo utiliza alguns recursos na internet. Portanto, para utilizá-lo, é preciso acesso à internet.
 
 ## Compatibilidade
 
+O JSP foi desenvolvido para ser bastante compatível com vários servidores de aplicação e navegadores. Mas ainda não temos uma lista com as versões suportadas.
