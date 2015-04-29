@@ -2,7 +2,11 @@
 
 Um cliente de banco de dados em uma única página JSP (Java Serve Pages).
 
-## Para executar
+## Utilização
+
+Para usar o JSP DB Client, basta colocar o arquivo `dbclient.jsp` na sua aplicação web e acessá-lo. Ele utiliza alguns recursos na internet. Portanto, para utilizá-lo, é necessário estar conectado.
+
+## Executando o Projeto
 
 Esse projeto usa [Maven](http://maven.apache.org).
 
@@ -17,12 +21,6 @@ Esse projeto tem disponível o banco de dados [Derby](https://db.apache.org/derb
 * Acesse a página (veja a imagem).
 
 ![Imagem 01](src/site/resources/img/img-01.png) 
-
-## Distributing
-
-Para usar o JSP DB Client em sua própria aplicação, basta colocar o arquivo `dbclient.jsp` na sua aplicação web.
-
-Esse arquivo utiliza alguns recursos na internet. Portanto, para utilizá-lo, é preciso acesso à internet.
 
 ## Compatibilidade
 
