@@ -1,6 +1,6 @@
 # jsp-db-client
 
-Um cliente de banco de dados em uma única página JSP (Java Serve Pages).
+Cliente de banco de dados em uma única página JSP (Java Serve Pages). Essa página é compatível com diversos servidores Java e navegadores.
 
 ## Utilização
 
@@ -20,8 +20,4 @@ Esse projeto tem disponível o banco de dados [Derby](https://db.apache.org/derb
 
 * Acesse a página (veja a imagem).
 
-![Imagem 01](src/site/resources/img/img-01.png) 
-
-## Compatibilidade
-
-O JSP foi desenvolvido para ser bastante compatível com vários servidores de aplicação e navegadores. Mas ainda não temos uma lista com as versões suportadas.
+![Imagem 01](src/site/resources/img/img-01.png)
